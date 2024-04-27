@@ -5,7 +5,7 @@ import { PizzaContext } from '../context/PizzaContext'
 function Cart () {
   const { cart, removeFromCart, clearCart, formatPrice } =
     useContext(PizzaContext)
-  const [total, setTotal] = useState(calculateTotal()) // Estado para almacenar el total
+  const [total, setTotal] = useState(calculateTotal())
 
   useEffect(() => {
     setTotal(calculateTotal())
@@ -15,18 +15,18 @@ function Cart () {
     return cart.reduce(
       (total, pizza) => total + pizza.price * (pizza.quantity || 1),
       0
-    ) // Multiplicar por 1 si pizza.quantity no está definido
+    )
   }
 
   function handleChangeQuantity (event, pizzaId) {
     const newQuantity = parseInt(event.target.value)
     const updatedCart = cart.map(pizza => {
       if (pizza.id === pizzaId) {
-        pizza.quantity = newQuantity // Actualizar la cantidad de la pizza en el carrito
+        pizza.quantity = newQuantity
       }
       return pizza
     })
-    setTotal(calculateTotal()) // Recalcular el total
+    setTotal(calculateTotal())
   }
 
   let cartContent
@@ -45,18 +45,16 @@ function Cart () {
           </div>
           <div className='col-md-8'>
             <div className='card-body d-flex align-items-center'>
-              <div className='d-flex align-items-center'>
+              <div className='d-flex flex-column align-items-start me-auto'>
                 <h5 className='card-title'>{pizza.name.toUpperCase()}</h5>
-              </div>
-              <div className='flex-grow-1 text-center'>
                 <h4 className='card-text'>
                   Precio: ${formatPrice(pizza.price)}
                 </h4>
               </div>
-              <div className='d-flex align-items-center ml-auto'>
+              <div className='d-flex align-items-center'>
                 <input
                   type='number'
-                  value={pizza.quantity || 1} // Usar 1 como valor inicial si pizza.quantity no está definido
+                  value={pizza.quantity || 1}
                   min='1'
                   onChange={event => handleChangeQuantity(event, pizza.id)}
                   className='form-control m-2 w-25'
@@ -82,7 +80,7 @@ function Cart () {
         <div className='card-body'>
           <h5 className='card-title'>Resumen del Carrito</h5>
           <h2 className='card-subtitle mb-2'>
-            Total a Pagar: ${formatPrice(total)}{' '}
+            Total a Pagar: ${formatPrice(total)}
           </h2>
           <Link to='/checkout' className='btn btn-primary me-2'>
             Proceder al Pago
@@ -92,7 +90,7 @@ function Cart () {
           </button>
           <Link to='/'>
             <button className='btn btn-warning m-2'>
-              Agregar mas productos
+              Agregar más productos
             </button>
           </Link>
         </div>
