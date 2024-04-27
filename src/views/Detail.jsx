@@ -1,8 +1,9 @@
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { PizzaContext } from '../context/PizzaContext'
+import PizzaDetail from '../components/PizzaDetail'
 
-function PizzaDetail () {
+function Detail () {
   const { id } = useParams()
   const { pizzas } = useContext(PizzaContext)
 
@@ -13,19 +14,7 @@ function PizzaDetail () {
     return <p>No se encontró la pizza.</p>
   }
 
-  return (
-    <div>
-      <h1>{pizza.name}</h1>
-      <img src={pizza.img} alt={pizza.name} />
-      <p>{pizza.desc}</p>
-      <p>Precio: ${pizza.price}</p>
-      <ul>
-        {pizza.ingredients.map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
-        ))}
-      </ul>
-    </div>
-  )
+  return <PizzaDetail pizza={pizza} />
 }
 
-export default PizzaDetail
+export default Detail

@@ -1,22 +1,21 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { PizzaProvider } from './context/PizzaContext'
+import { Route, Routes } from 'react-router-dom'
 import Home from './views/Home'
-import PizzaDetail from './views/PizzaDetail'
+import Detail from './views/Detail'
 import Cart from './views/Cart'
 import NotFound from './views/NotFound'
+import MenuNavBar from './components/MenuNavbar'
 
 function App () {
   return (
-    <PizzaProvider>
-      <Router>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/pizza/:id' element={<PizzaDetail />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </Router>
-    </PizzaProvider>
+    <>
+      <MenuNavBar />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/pizza/:id' element={<Detail />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </>
   )
 }
 

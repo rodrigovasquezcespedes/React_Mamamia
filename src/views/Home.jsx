@@ -1,5 +1,7 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import PizzaCard from '../components/PizzaCard'
+import { Container, Row, Col } from 'react-bootstrap'
+import Banner from '../components/Banner'
 import { PizzaContext } from '../context/PizzaContext'
 
 function Home () {
@@ -7,18 +9,16 @@ function Home () {
 
   return (
     <div>
-      <h1>Catálogo de Pizzas</h1>
-      <div className='pizza-list'>
-        {pizzas.map(pizza => (
-          <div key={pizza.id} className='pizza-item'>
-            <img src={pizza.img} alt={pizza.name} />
-            <h2>{pizza.name}</h2>
-            <p>{pizza.desc}</p>
-            <p>Precio: ${pizza.price}</p>
-            <Link to={`/pizza/${pizza.id}`}>Ver Detalles</Link>
-          </div>
-        ))}
-      </div>
+      <Banner />
+      <Container>
+        <Row className='g-4'>
+          {pizzas.map(pizza => (
+            <Col key={pizza.id} md={3}>
+              <PizzaCard pizza={pizza} />
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
   )
 }

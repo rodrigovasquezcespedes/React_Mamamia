@@ -1,24 +1,12 @@
-import React from 'react'
 import { Card, Button } from 'react-bootstrap'
+import { LuPizza } from 'react-icons/lu'
+import Buttons from '../components/Buttons'
 import { Link } from 'react-router-dom'
-import { FaShoppingCart, FaPizzaSlice } from 'react-icons/fa'
+import { MdOutlineRemoveRedEye } from 'react-icons/md'
 
 function PizzaCard ({ pizza }) {
   const formatPrice = price => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-  }
-
-  // Función para renderizar la lista de ingredientes
-  const renderIngredients = () => {
-    const ingredientsList = []
-    for (let i = 0; i < pizza.ingredients.length; i++) {
-      ingredientsList.push(
-        <li key={i}>
-          <FaPizzaSlice /> {pizza.ingredients[i]}
-        </li>
-      )
-    }
-    return ingredientsList
   }
 
   return (
@@ -30,23 +18,25 @@ function PizzaCard ({ pizza }) {
         </Card.Title>
         <Card.Text className='border-bottom border-2 border-dark'>
           Ingredientes:
-          <ul className='list-unstyled'>{renderIngredients()}</ul>
+          <ul className='list-unstyled'>
+            {pizza.ingredients.map((ingredient, index) => (
+              <li key={index}>
+                <LuPizza /> {ingredient}
+              </li>
+            ))}
+          </ul>
         </Card.Text>
         <Card.Text className='text-center fw-bold fs-2'>
           ${formatPrice(pizza.price)}
         </Card.Text>
-        <Button
-          as={Link}
-          to={`/pizza/${pizza.id}`}
-          variant='primary'
-          className='mr-2 m-2'
-        >
-          Ver Detalle
-        </Button>
-        <Button as={Link} to={`/pizza/${pizza.id}`} variant='danger'>
-          <FaShoppingCart />
-          Agregar
-        </Button>
+        <div className='d-flex justify-content-between'>
+          <Link to={`/pizza/${pizza.id}`}>
+            <Button className='bg-primary' style={{ fontSize: '0.8rem' }}>
+              <MdOutlineRemoveRedEye className='mr-1' /> Detalles
+            </Button>
+          </Link>
+          <Buttons id={pizza.id} />
+        </div>
       </Card.Body>
     </Card>
   )

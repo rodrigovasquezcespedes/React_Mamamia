@@ -1,25 +1,75 @@
-import { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { PizzaContext } from '../context/PizzaContext'
 
 function Cart () {
-  const { cart, removeFromCart, clearCart } = useContext(PizzaContext)
+  const { cart, removeFromCart, clearCart, formatPrice } =
+    useContext(PizzaContext)
+  const [total, setTotal] = useState(calculateTotal()) // Estado para almacenar el total
 
-  const calculateTotal = () => {
-    return cart.reduce((total, pizza) => total + pizza.price, 0)
+  useEffect(() => {
+    setTotal(calculateTotal())
+  }, [cart])
+
+  function calculateTotal () {
+    return cart.reduce(
+      (total, pizza) => total + pizza.price * (pizza.quantity || 1),
+      0
+    ) // Multiplicar por 1 si pizza.quantity no está definido
+  }
+
+  function handleChangeQuantity (event, pizzaId) {
+    const newQuantity = parseInt(event.target.value)
+    const updatedCart = cart.map(pizza => {
+      if (pizza.id === pizzaId) {
+        pizza.quantity = newQuantity // Actualizar la cantidad de la pizza en el carrito
+      }
+      return pizza
+    })
+    setTotal(calculateTotal()) // Recalcular el total
   }
 
   let cartContent
   if (cart.length === 0) {
-    cartContent = <p>El carrito está vacío.</p>
+    cartContent = <h3 className='text-center'>El carrito está vacío.</h3>
   } else {
     cartContent = cart.map(pizza => (
-      <div key={pizza.id} className='cart-item'>
-        <img src={pizza.img} alt={pizza.name} />
-        <div>
-          <h2>{pizza.name}</h2>
-          <p>Precio: ${pizza.price}</p>
-          <button onClick={() => removeFromCart(pizza.id)}>Eliminar</button>
+      <div key={pizza.id} className='card mb-3'>
+        <div className='row g-0'>
+          <div className='col-md-2'>
+            <img
+              src={pizza.img}
+              alt={pizza.name}
+              className='img-fluid rounded-start w-75 p-2 m-3'
+            />
+          </div>
+          <div className='col-md-8'>
+            <div className='card-body d-flex align-items-center'>
+              <div className='d-flex align-items-center'>
+                <h5 className='card-title'>{pizza.name.toUpperCase()}</h5>
+              </div>
+              <div className='flex-grow-1 text-center'>
+                <h4 className='card-text'>
+                  Precio: ${formatPrice(pizza.price)}
+                </h4>
+              </div>
+              <div className='d-flex align-items-center ml-auto'>
+                <input
+                  type='number'
+                  value={pizza.quantity || 1} // Usar 1 como valor inicial si pizza.quantity no está definido
+                  min='1'
+                  onChange={event => handleChangeQuantity(event, pizza.id)}
+                  className='form-control m-2 w-25'
+                />
+                <button
+                  className='btn btn-danger'
+                  onClick={() => removeFromCart(pizza.id)}
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     ))
@@ -28,20 +78,32 @@ function Cart () {
   let cartSummary
   if (cart.length > 0) {
     cartSummary = (
-      <div className='cart-summary'>
-        <h3>Total a Pagar: ${calculateTotal()}</h3>
-        <Link to='/checkout'>
-          <button>Proceder al Pago</button>
-        </Link>
-        <button onClick={clearCart}>Vaciar Carrito</button>
+      <div className='card m-1'>
+        <div className='card-body'>
+          <h5 className='card-title'>Resumen del Carrito</h5>
+          <h2 className='card-subtitle mb-2'>
+            Total a Pagar: ${formatPrice(total)}{' '}
+          </h2>
+          <Link to='/checkout' className='btn btn-primary me-2'>
+            Proceder al Pago
+          </Link>
+          <button className='btn btn-secondary' onClick={clearCart}>
+            Vaciar Carrito
+          </button>
+          <Link to='/'>
+            <button className='btn btn-warning m-2'>
+              Agregar mas productos
+            </button>
+          </Link>
+        </div>
       </div>
     )
   }
 
   return (
-    <div>
-      <h1>Carrito de Compras</h1>
-      <div className='cart-items'>{cartContent}</div>
+    <div className='container bg-white rounded-4 mt-5'>
+      <h1 className='text-center text-danger'>Carrito de Compras</h1>
+      {cartContent}
       {cartSummary}
     </div>
   )

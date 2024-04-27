@@ -13,6 +13,7 @@ export const PizzaProvider = ({ children }) => {
       const response = await fetch('/pizzas.json')
       const data = await response.json()
       setPizzas(data)
+      console.log('context', data)
     } catch (error) {
       console.error('Error loading pizzas:', error)
     }
@@ -21,6 +22,10 @@ export const PizzaProvider = ({ children }) => {
   useEffect(() => {
     loadPizzas()
   }, [])
+
+  const formatPrice = price => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  }
 
   // Función para agregar una pizza al carrito
   const addToCart = pizza => {
@@ -38,7 +43,7 @@ export const PizzaProvider = ({ children }) => {
   }
 
   return (
-    <PizzaContext.Provider value={{ pizzas, cart, addToCart, removeFromCart, clearCart }}>
+    <PizzaContext.Provider value={{ pizzas, cart, addToCart, removeFromCart, clearCart, formatPrice }}>
       {children}
     </PizzaContext.Provider>
   )
