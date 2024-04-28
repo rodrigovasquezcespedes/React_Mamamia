@@ -33,7 +33,7 @@ export const PizzaProvider = ({ children }) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   }
 
-  // Calcula el total del valor de todas las pizzas en el carrito
+  // Calcula el total
   const calculateTotal = () => {
     return cart.reduce(
       (total, pizza) => total + pizza.price * (pizza.quantity || 1),
@@ -41,6 +41,7 @@ export const PizzaProvider = ({ children }) => {
     )
   }
 
+  //  actualizar la cantidad de un artículo
   const handleQuantityChange = (event, pizzaId) => {
     const newQuantity = parseInt(event.target.value)
     setCart(prevCart => {
@@ -53,14 +54,14 @@ export const PizzaProvider = ({ children }) => {
     })
   }
 
-  // Función para agregar una pizza al carrito
+  // agrega una pizza al carrito
   const addToCart = pizzaToAdd => {
     const existingPizzaIndex = cart.findIndex(
       pizza => pizza.id === pizzaToAdd.id
     )
 
     if (existingPizzaIndex !== -1) {
-      // Si la pizza ya está en el carrito, actualiza su cantidad
+      // Si la pizza se repite, actualiza la cantidad
       const updatedCart = cart.map((pizza, index) => {
         if (index === existingPizzaIndex) {
           return {
@@ -72,19 +73,19 @@ export const PizzaProvider = ({ children }) => {
       })
       setCart(updatedCart)
     } else {
-      // Si la pizza no está en el carrito, agrégala
+      // Si la pizza no está en el carrito la agrégala
       setCart([...cart, pizzaToAdd])
     }
     // Actualiza la cantidad total en el carrito
     setTotalQuantity(prevQuantity => prevQuantity + (pizzaToAdd.quantity || 1))
   }
 
-  // Función para remover una pizza del carrito
+  // elimina la pizza del carrito
   const removeFromCart = pizzaId => {
     setCart(cart.filter(item => item.id !== pizzaId))
   }
 
-  // Función para limpiar el carrito
+  // limpia el arreglo del carrito
   const clearCart = () => {
     setCart([])
   }
