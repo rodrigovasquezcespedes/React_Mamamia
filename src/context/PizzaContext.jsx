@@ -42,7 +42,8 @@ export const PizzaProvider = ({ children }) => {
     )
   }
 
-  const updateQuantity = (pizzaId, newQuantity) => {
+  const handleQuantityChange = (event, pizzaId) => {
+    const newQuantity = parseInt(event.target.value)
     setCart(prevCart => {
       return prevCart.map(pizza => {
         if (pizza.id === pizzaId) {
@@ -96,7 +97,7 @@ export const PizzaProvider = ({ children }) => {
         total,
         totalQuantity,
         calculateTotal,
-        updateQuantity,
+        handleQuantityChange,
         addToCart,
         removeFromCart,
         clearCart,

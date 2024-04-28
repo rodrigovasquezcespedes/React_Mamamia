@@ -1,15 +1,13 @@
 import { useContext } from 'react'
-import { Table } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 import { PizzaContext } from '../context/PizzaContext'
 
 const Checkout = () => {
-  const { cart, formatPrice } = useContext(PizzaContext)
+  const { cart, total, formatPrice } = useContext(PizzaContext)
 
-  const total = cart.reduce(
-    (total, pizza) => total + pizza.price * (pizza.quantity || 1),
-    0
-  )
-
+  const handlePrint = () => {
+    window.print()
+  }
   return (
     <div className='p-5'>
       <Table striped bordered hover>
@@ -38,6 +36,9 @@ const Checkout = () => {
           </tr>
         </tbody>
       </Table>
+      <Button variant='primary' onClick={handlePrint}>
+        Imprimir
+      </Button>
     </div>
   )
 }

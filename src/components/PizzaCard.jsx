@@ -10,9 +10,9 @@ function PizzaCard ({ pizza }) {
   const { formatPrice } = useContext(PizzaContext)
   return (
     <Card className='border-5 border-warning rounded'>
-      <Card.Img className='p-2 h-75 rounded' src={pizza.img} />
+      <Card.Img className=' w-100 rounded' src={pizza.img} />
       <Card.Body>
-        <Card.Title className='border-bottom border-2 border-dark my-4 text-center fw-bold mx-2'>
+        <Card.Title className='border-bottom border-2 border-dark text-center fw-bold'>
           {pizza.name.toUpperCase()}
         </Card.Title>
         <Card.Text className='border-bottom border-2 border-dark'>

@@ -5,7 +5,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { PizzaContext } from '../context/PizzaContext'
 
 const MenuNavbar = () => {
-  const { total, totalQuantity } = useContext(PizzaContext)
+  const { total, totalQuantity, formatPrice } = useContext(PizzaContext)
 
   const setActiveClass = ({ isActive }) =>
     isActive ? 'text-warning' : 'text-white'
@@ -26,7 +26,7 @@ const MenuNavbar = () => {
             <NavLink className={setActiveClass} to='/Cart'>
               <FaShoppingCart />
               <Badge bg='info rounded-5'>{totalQuantity}</Badge> - $
-              {total}
+              ${formatPrice(total)}
             </NavLink>
           </Nav>
         </Navbar.Collapse>

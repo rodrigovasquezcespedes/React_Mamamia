@@ -10,18 +10,13 @@ function Cart () {
     formatPrice,
     calculateTotal,
     totalQuantity,
-    updateQuantity
+    handleQuantityChange
   } = useContext(PizzaContext)
   const [total, setTotal] = useState(calculateTotal())
 
   useEffect(() => {
     setTotal(calculateTotal())
   }, [cart])
-
-  const handleChangeQuantity = (event, pizzaId) => {
-    const newQuantity = parseInt(event.target.value)
-    updateQuantity(pizzaId, newQuantity) // Llama a la función del contexto para actualizar la cantidad
-  }
 
   let cartContent
   if (cart.length === 0) {
@@ -42,7 +37,7 @@ function Cart () {
               <div className='d-flex flex-column align-items-start me-auto'>
                 <h5 className='card-title'>{pizza.name.toUpperCase()}</h5>
                 <h4 className='card-text'>
-                  Precio: ${pizza.price}
+                  Precio: ${formatPrice(pizza.price)}
                 </h4>
               </div>
               <div className='d-flex align-items-center'>
@@ -50,7 +45,7 @@ function Cart () {
                   type='number'
                   value={pizza.quantity || 1}
                   min='1'
-                  onChange={event => handleChangeQuantity(event, pizza.id)}
+                  onChange={event => handleQuantityChange(event, pizza.id)}
                   className='form-control m-2 w-25'
                 />
                 <button
