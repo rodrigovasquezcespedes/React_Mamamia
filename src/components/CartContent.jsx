@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { PizzaContext } from '../context/PizzaContext'
 
 const CartContent = () => {
-  const { cart, removeFromCart, formatPrice, handleQuantityChange } =
-    useContext(PizzaContext)
+  const { cart, removeFromCart, formatPrice, handleQuantityChange } = useContext(PizzaContext)
 
   let cartContent
 

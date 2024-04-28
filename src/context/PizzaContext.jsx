@@ -8,10 +8,9 @@ export const PizzaProvider = ({ children }) => {
   const [total, setTotal] = useState(0)
   const [totalQuantity, setTotalQuantity] = useState(0)
 
-  // Función para cargar los datos de las pizzas
+  // lama al json
   const loadPizzas = async () => {
     try {
-      // Simulamos una llamada a una API o carga de datos
       const response = await fetch('/pizzas.json')
       const data = await response.json()
       setPizzas(data)
@@ -53,6 +52,7 @@ export const PizzaProvider = ({ children }) => {
       })
     })
   }
+
   // Función para agregar una pizza al carrito
   const addToCart = pizzaToAdd => {
     const existingPizzaIndex = cart.findIndex(
