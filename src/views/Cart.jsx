@@ -3,30 +3,24 @@ import { Link } from 'react-router-dom'
 import { PizzaContext } from '../context/PizzaContext'
 
 function Cart () {
-  const { cart, removeFromCart, clearCart, formatPrice } =
-    useContext(PizzaContext)
+  const {
+    cart,
+    removeFromCart,
+    clearCart,
+    formatPrice,
+    calculateTotal,
+    totalQuantity,
+    updateQuantity
+  } = useContext(PizzaContext)
   const [total, setTotal] = useState(calculateTotal())
 
   useEffect(() => {
     setTotal(calculateTotal())
   }, [cart])
 
-  function calculateTotal () {
-    return cart.reduce(
-      (total, pizza) => total + pizza.price * (pizza.quantity || 1),
-      0
-    )
-  }
-
-  function handleChangeQuantity (event, pizzaId) {
+  const handleChangeQuantity = (event, pizzaId) => {
     const newQuantity = parseInt(event.target.value)
-    const updatedCart = cart.map(pizza => {
-      if (pizza.id === pizzaId) {
-        pizza.quantity = newQuantity
-      }
-      return pizza
-    })
-    setTotal(calculateTotal())
+    updateQuantity(pizzaId, newQuantity) // Llama a la función del contexto para actualizar la cantidad
   }
 
   let cartContent
@@ -48,7 +42,7 @@ function Cart () {
               <div className='d-flex flex-column align-items-start me-auto'>
                 <h5 className='card-title'>{pizza.name.toUpperCase()}</h5>
                 <h4 className='card-text'>
-                  Precio: ${formatPrice(pizza.price)}
+                  Precio: ${pizza.price}
                 </h4>
               </div>
               <div className='d-flex align-items-center'>
@@ -79,6 +73,7 @@ function Cart () {
       <div className='card m-1'>
         <div className='card-body'>
           <h5 className='card-title'>Resumen del Carrito</h5>
+          <p>Cantidad de Productos: {totalQuantity}</p>
           <h2 className='card-subtitle mb-2'>
             Total a Pagar: ${formatPrice(total)}
           </h2>

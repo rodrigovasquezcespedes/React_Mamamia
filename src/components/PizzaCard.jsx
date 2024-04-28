@@ -3,12 +3,11 @@ import { LuPizza } from 'react-icons/lu'
 import Buttons from '../components/Buttons'
 import { Link } from 'react-router-dom'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { PizzaContext } from '../context/PizzaContext'
+import React, { useContext } from 'react'
 
 function PizzaCard ({ pizza }) {
-  const formatPrice = price => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-  }
-
+  const { formatPrice } = useContext(PizzaContext)
   return (
     <Card className='border-5 border-warning rounded'>
       <Card.Img className='p-2 h-75 rounded' src={pizza.img} />

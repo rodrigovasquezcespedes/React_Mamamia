@@ -1,10 +1,15 @@
-import { Navbar, Nav } from 'react-bootstrap'
+import { useContext } from 'react'
+import { Navbar, Nav, Badge } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
+import { PizzaContext } from '../context/PizzaContext'
 
 const MenuNavbar = () => {
+  const { total, totalQuantity } = useContext(PizzaContext)
+
   const setActiveClass = ({ isActive }) =>
     isActive ? 'text-warning' : 'text-white'
+
   return (
     <>
       <Navbar className='bg-secondary fixed-top' expand='lg'>
@@ -19,7 +24,9 @@ const MenuNavbar = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav style={{ marginLeft: 'auto', marginRight: '50px' }}>
             <NavLink className={setActiveClass} to='/Cart'>
-              <FaShoppingCart /> Carrito
+              <FaShoppingCart />
+              <Badge bg='info rounded-5'>{totalQuantity}</Badge> - $
+              {total}
             </NavLink>
           </Nav>
         </Navbar.Collapse>

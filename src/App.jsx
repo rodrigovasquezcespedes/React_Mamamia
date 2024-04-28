@@ -4,6 +4,7 @@ import Detail from './views/Detail'
 import Cart from './views/Cart'
 import NotFound from './views/NotFound'
 import MenuNavBar from './components/MenuNavbar'
+import Checkout from './views/Checkout'
 
 function App () {
   return (
@@ -13,6 +14,7 @@ function App () {
         <Route path='/' element={<Home />} />
         <Route path='/pizza/:id' element={<Detail />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/checkout' element={<Checkout />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
