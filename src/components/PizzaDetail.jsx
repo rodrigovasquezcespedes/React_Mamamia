@@ -9,7 +9,7 @@ import React, { useContext } from 'react'
 const PizzaDetail = ({ pizza }) => {
   const { formatPrice } = useContext(PizzaContext)
   return (
-    <div className='bg-white p-4 m-4 rounded-4 h-50'>
+    <div className='bg-white mt-5 p-4 m-4 rounded-4 h-50 '>
       <h1 className='text-center'>{pizza.name.toUpperCase()}</h1>
       <Row>
         <Col md={6}>
